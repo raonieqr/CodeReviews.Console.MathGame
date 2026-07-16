@@ -1,8 +1,14 @@
 ﻿namespace CodeReviews.MathGame
 {
-    internal class ConsoleUserInteraction
+    public class ConsoleUserInteraction
     {
         int userPoints = 0;
+        private GameLog log;
+
+        public ConsoleUserInteraction()
+        {
+            log = new GameLog();
+        }
 
         private int GetUserInput()
         {
@@ -25,8 +31,10 @@
 
             Console.WriteLine($"Question: {item.Key} - What is {item.Value[0]} {symbol} {item.Value[1]}?");
 
-            int resultOfQuestion = GetUserInput();
-            if (resultOfQuestion == result)
+            int userAnswer = GetUserInput();
+            bool isCorrect = userAnswer == result;
+
+            if (isCorrect)
             {
                 Console.WriteLine("Correct!");
                 userPoints++;
@@ -35,11 +43,23 @@
             {
                 Console.WriteLine($"Incorrect! The correct answer is {result}.");
             }
+
+            log.AddLog($"{item.Value[0]} {symbol} {item.Value[1]} = {result} | your answer: {userAnswer}");
         }
 
         public int GetUserPoints()
         {
             return userPoints;
+        }
+
+        public void SetGameLog(GameLog gameLog)
+        {
+            this.log = gameLog;
+        }
+
+        public void ShowGameLog()
+        {
+            log.ShowLog();
         }
 
     }

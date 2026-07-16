@@ -4,38 +4,59 @@ namespace CodeReviews.MathGame
     {
         static void Main(string[] args)
         {
+            int result = 0;
             Console.WriteLine("Welcome to the Math Game!");
-            var operation = PromptOperationChoice();
+            var consoleUserInteraction = new ConsoleUserInteraction();
 
-            if (operation == null)
+            while (true)
             {
-                Console.WriteLine("Invalid operation selected.");
-                return;
-            }
+                int choice = PromptMenuChoice();
 
-            try
-            {
-                var questionGenerator = new QuestionGenerator(operation.Value);
-                int result = questionGenerator.calculate();
-                Console.WriteLine($"Your total points: {result} points");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred: {ex.Message}");
+                if (choice == 9)
+                {
+                    Console.WriteLine("Exiting the game. Goodbye!");
+                    break;
+                }
+
+                if (choice == 8)
+                {
+                    consoleUserInteraction.ShowGameLog();
+                    continue;
+                }
+
+                if (!Enum.IsDefined(typeof(Operation), choice))
+                {
+                    Console.WriteLine("Invalid operation selected. Try again.");
+                    continue;
+                }
+
+                var operation = (Operation)choice;
+
+                try
+                {
+                    var questionGenerator = new QuestionGenerator(operation);
+                    result += questionGenerator.Calculate(consoleUserInteraction);
+                    Console.WriteLine($"Your total points: {result} points");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"An error occurred: {ex.Message}");
+                }
             }
         }
 
-        static Operation? PromptOperationChoice()
+        static int PromptMenuChoice()
         {
             Console.WriteLine("Choose a type of operation: ");
             foreach (Operation op in Enum.GetValues(typeof(Operation)))
                 Console.WriteLine($"{(int)op}. {op.GetDescription()}");
 
-            string? input = Console.ReadLine();
-            if (int.TryParse(input, out var value) && Enum.IsDefined(typeof(Operation), value))
-                return (Operation)value;
+            Console.WriteLine("8. View logs");
+            Console.WriteLine("9. Exit");
 
-            return null;
+            string? input = Console.ReadLine();
+            int.TryParse(input, out var value);
+            return value;
         }
     }
 }

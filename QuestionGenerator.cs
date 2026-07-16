@@ -4,7 +4,7 @@ public class QuestionGenerator
 {
     private const int NUMBER_OF_QUESTION = 5;
 
-    Operation operation;
+    private Operation operation;
 
     public QuestionGenerator(Operation operation)
     {
@@ -19,12 +19,11 @@ public class QuestionGenerator
         { Operation.Multiplication, new MultiplicationOperation() },
     };
 
-    public int calculate()
+    public int Calculate(ConsoleUserInteraction consoleUserInteraction)
     {
         Dictionary<string, List<int>> mapOfQuestion = RandomNumberAndQuestion();
         IMathOperation op = _operations[operation];
 
-        ConsoleUserInteraction consoleUserInteraction = new ConsoleUserInteraction();
 
         foreach (KeyValuePair<string, List<int>> item in mapOfQuestion)
         {
@@ -40,14 +39,14 @@ public class QuestionGenerator
                 Console.WriteLine("Skipping division by zero question.");
                 continue;
             }
-            
+
         }
 
         return consoleUserInteraction.GetUserPoints();
 
     }
 
-  
+
     public Dictionary<string, List<int>> RandomNumberAndQuestion()
     {
         Dictionary<string, List<int>> questions = new Dictionary<string, List<int>>();
