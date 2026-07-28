@@ -35,8 +35,8 @@ namespace CodeReviews.MathGame
                 try
                 {
                     var questionGenerator = new QuestionGenerator(operation);
-                    result += questionGenerator.Calculate(consoleUserInteraction);
-                    Console.WriteLine($"Your total points: {result} points");
+                    questionGenerator.Calculate(consoleUserInteraction);
+                    Console.WriteLine($"Your total points: {consoleUserInteraction.GetUserPoints()} points");
                 }
                 catch (Exception ex)
                 {

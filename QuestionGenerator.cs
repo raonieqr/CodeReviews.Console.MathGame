@@ -19,7 +19,7 @@ public class QuestionGenerator
         { Operation.Multiplication, new MultiplicationOperation() },
     };
 
-    public int Calculate(ConsoleUserInteraction consoleUserInteraction)
+    public void Calculate(ConsoleUserInteraction consoleUserInteraction)
     {
         Dictionary<string, List<int>> mapOfQuestion = RandomNumberAndQuestion(operation);
         IMathOperation op = _operations[operation];
@@ -41,8 +41,6 @@ public class QuestionGenerator
             }
 
         }
-
-        return consoleUserInteraction.GetUserPoints();
 
     }
 
