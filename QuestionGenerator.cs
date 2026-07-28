@@ -21,7 +21,7 @@ public class QuestionGenerator
 
     public int Calculate(ConsoleUserInteraction consoleUserInteraction)
     {
-        Dictionary<string, List<int>> mapOfQuestion = RandomNumberAndQuestion();
+        Dictionary<string, List<int>> mapOfQuestion = RandomNumberAndQuestion(operation);
         IMathOperation op = _operations[operation];
 
 
@@ -47,14 +47,27 @@ public class QuestionGenerator
     }
 
 
-    public Dictionary<string, List<int>> RandomNumberAndQuestion()
+    public Dictionary<string, List<int>> RandomNumberAndQuestion(Operation operation)
     {
         Dictionary<string, List<int>> questions = new Dictionary<string, List<int>>();
         Random random = new Random();
 
         for (int i = 0; i < NUMBER_OF_QUESTION; i++)
         {
-            questions.Add($"Question {i + 1}", new List<int> { random.Next(0, 100), random.Next(1, 100) });
+            int numberOne = random.Next(0, 100);
+            int numberTwo = random.Next(0, 100);
+
+            if (operation == Operation.Division)
+            {
+               
+                while (numberTwo != 0 && numberOne % numberTwo != 0)
+                {
+                    numberOne = random.Next(0, 100);
+                    numberTwo = random.Next(0, 100);
+                }
+            }
+
+            questions.Add($"Question {i + 1}", new List<int> { numberOne, numberTwo });
         }
 
         return questions;
